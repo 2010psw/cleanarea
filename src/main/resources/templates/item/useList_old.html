@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<div th:replace="fragments/navigation :: navigation" />
+<div class="container">
+    <h2>물품 목록</h2>
+    <a href="/item">물품 목록</a> | <a href="/item/useList">물품사용 상세</a> | <a href="/item/new">물품 등록</a>
+
+    <form>
+        <input type="date" name="startDay" value="today"> ~
+        <input type="date" name="startDay" value="today">
+        <input type="submit" value="검색">
+    </form>
+    <table class="table table-hover justify-content">
+        <tr>
+            <th>날짜</th>
+            <th>사용 물품</th>
+            <th>입/출고</th>
+            <th>수량</th>
+            <th>입/출고처</th>
+            <th>비고</th>
+        </tr>
+        <tr th:each="itemUse : ${itemUses}">
+           <td th:text="${itemUse.useDay}"></td>
+           <td th:text="${itemUse.item.getName()}"></td>
+           <td th:text="${itemUse.io}"></td>
+           <td th:text="${itemUse.useCount}"></td>
+           <td th:text="${itemUse.place}"></td>
+           <td th:text="${itemUse.memo}"></td>
+        </tr>
+    </table>
+    <nav>
+        <ul th:class="pagination"
+            th:with="start=${T(Math).floor(itemUses.number/10)*10 + 1},
+                    last=(${start + 9 < itemUses.totalPages ? start + 9 : itemUses.totalPages})">
+            <li th:class="page-item">
+                <a th:href="@{/item/useList(page=1)}" aria-label="First" th:class="page-link">
+                    <span aria-hidden="true">First</span>
+                </a>
+            </li>
+            <li th:class="${itemUses.first} ? 'page-item disabled' : 'page-item'">
+                <a th:href="${itemUses.first} ? '#' :@{/item/useList(page=${itemUses.number})}"
+                   aria-label="Previous"
+                   th:class="page-link">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+
+            <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == itemUses.number + 1} ? 'page-item active' : 'page-item'">
+                <div th:unless="${page == itemUses.number + 1}">
+                    <a th:text="${page}" th:href="@{/item/useList(page=${page})}" th:class="page-link"></a>
+                </div>
+
+                <div th:if="${page == itemUses.number + 1}">
+                <span th:class="page-link" th:text="${page}">
+                    <span th:class="sr-only">(current)</span>
+                </span>
+                </div>
+            </li>
+
+            <li th:class="${itemUses.last} ? 'page-item active disabled' : page-item">
+                <a th:href="${itemUses.last} ? '#' : @{/item/useList(page=${itemUses.number + 2})}" aria-label="Next"
+                   th:class="page-link">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+            <li th:class="page-item">
+                <a th:href="@{/item/useList(page=${itemUses.totalPages})}" aria-label="Last"
+                   th:class="page-link">
+                    <span aria-hidden="true">Last</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
+
+
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

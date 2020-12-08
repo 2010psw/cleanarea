@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<div class="sticky-top">
+    <div th:replace="fragments/navigation :: navigation" />
+</div>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-2">
+        <div class="mt-5">
+            <div th:replace="fragments/item_menu :: item_menu"/>
+        </div>
+    </div>
+        <div class="col-10">
+            <div class="container col-5">
+                <form method="post" action="/item/update">
+                    <input type="hidden" name="id" th:value="${item.id}">
+                    <div class="form-group">
+                        <label for="name">물품명</label>
+                        <input type="text" class="form-control" id="name" name="name" th:value="${item.name}" required="required">
+                    </div>
+                    <div class="form-group">
+                        <label for="manage">관리</label>
+                        <select class="form-control" id="manage" name="manage" th:field="${item.manage}">
+                            <option value="거륭">거륭</option>
+                            <option value="탑스원">탑스원</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="division">구분</label>
+                        <input type="text" class="form-control" name="division" id="division"
+                               placeholder="살균제/살충제/손소독제..." required="required" th:value="${item.division}">
+                    </div>
+                    <div class="form-group">
+                        <label for="countSub">단위</label>
+                        <input type="text" class="form-control" id="countSub" name="countSub" placeholder="ml/L/ea...."
+                               required="required" th:value="${item.countSub}">
+                    </div>
+                    <div class="form-group">
+                        <label for="buyPrice">매입가</label>
+                        <input type="number" class="form-control" id="buyPrice" name="buyPrice" th:value="${item.buyPrice}">
+                    </div>
+                    <div class="form-group">
+                        <label for="supply">매입처</label>
+                        <input type="text" class="form-control" id="supply" name="supply" th:value="${item.supply}">
+                    </div>
+                    <div class="form-group">
+                        <label for="supplyInfo">매입처 정보</label>
+                        <input type="text" class="form-control" id="supplyInfo" name="supplyInfo" th:value="${item.supplyInfo}">
+                    </div>
+                    <div class="form-group">
+                        <label for="memo">비고</label>
+                        <input type="text" class="form-control" id="memo" name="memo" th:value="${item.memo}">
+                    </div>
+                    <input type="submit" class="btn btn-outline-primary" value="등록">
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div th:replace="fragments/footer :: footer" />
+</div>
+</body>
+</html>

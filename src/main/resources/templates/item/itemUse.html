@@ -1,0 +1,169 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<div class="sticky-top">
+    <div th:replace="fragments/navigation :: navigation"/>
+</div>
+<div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2">
+                <div class="mt-5">
+                    <div th:replace="fragments/item_menu :: item_menu"/>
+                </div>
+            </div>
+            <div class="col-10">
+                <hr>
+                <div class="row mt-1 p-5">
+                    <div class="col">
+                        <h2>물품 입/출고 0000대장</h2>
+<!--                        <form action="/item/search" method="get">-->
+<!--                            <input type="text" name="name">-->
+<!--                            <input type="submit" value="검색">-->
+<!--                        </form>-->
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>날짜</th>
+                                <th>물품명</th>
+                                <th>입/출고</th>
+                                <th>입/출고처</th>
+                                <th>입/출고량</th>
+                                <th>물품 재고</th>
+                                <th>입/출고가</th>
+                                <th>비고</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="itemUse : ${itemUses}" th:data-id="${itemUse.getId()}" class="clickedTr">
+                                <td th:text="${itemUse.getUseDay()}">2020-01-01</td>
+                                <td th:text="${itemUse.item.getName()}">물품명</td>
+                                <td th:text="${itemUse.getIo()}">입/출고</td>
+                                <td th:text="${itemUse.getPlace()}">입/출고처</td>
+                                <td th:text="${itemUse.getUseCount() +'(' + itemUse.item.getCountSub() + ')'}">입/출고량</td>
+                                <td th:text="${itemUse.getStack()}">물품 재고</td>
+                                <td th:text="${itemUse.getPrice()}">입/출고가</td>
+                                <td th:text="${itemUse.getMemo()}">비고</td>
+
+
+
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+<!--                                pagination-->
+                <div class="container">
+                    <div>
+                        <ul th:class="pagination"
+                            th:with="start=${T(Math).floor(itemUses.number/10)*10 + 1},
+                    last=(${start + 9 < itemUses.totalPages ? start + 9 : itemUses.totalPages})">
+                            <li th:class="page-item">
+                                <a th:href="@{/itemUses(page=1)}" aria-label="First" th:class="page-link">
+                                    <span aria-hidden="true">First</span>
+                                </a>
+                            </li>
+                            <li th:class="${itemUses.first} ? 'page-item disabled' : 'page-item'">
+                                <a th:href="${itemUses.first} ? '#' :@{/item(page=${itemUses.number})}"
+                                   aria-label="Previous"
+                                   th:class="page-link">
+                                    <span aria-hidden="true">&lt;</span>
+                                </a>
+                            </li>
+
+                            <li th:each="page: ${#numbers.sequence(start, last)}"
+                                th:class="${page == itemUses.number + 1} ? 'page-item active' : 'page-item'">
+                                <div th:unless="${page == itemUses.number + 1}">
+                                    <a th:text="${page}" th:href="@{/item(page=${page})}" th:class="page-link"></a>
+                                </div>
+
+                                <div th:if="${page == itemUses.number + 1}">
+                <span th:class="page-link" th:text="${page}">
+                    <span th:class="sr-only">(current)</span>
+                </span>
+                                </div>
+                            </li>
+
+                            <li th:class="${itemUses.last} ? 'page-item active disabled' : page-item">
+                                <a th:href="${itemUses.last} ? '#' : @{/item(page=${itemUses.number + 2})}" aria-label="Next"
+                                   th:class="page-link">
+                                    <span aria-hidden="true">&gt;</span>
+                                </a>
+                            </li>
+                            <li th:class="page-item">
+                                <a th:href="@{/item(page=${itemUses.totalPages})}" aria-label="Last"
+                                   th:class="page-link">
+                                    <span aria-hidden="true">Last</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--여기부터-->
+            <!--    <div class="dropdown list-group-item list-group-item-action">-->
+            <!--        <div class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+            <!--            물품사용대장-->
+            <!--        </div>-->
+            <!--        <div class="dropdown-menu fade " aria-labelledby="dropdownMenuButton">-->
+            <!--            <a class="dropdown-item" href="#">품목별 조회</a>-->
+            <!--            <a class="dropdown-item" href="#">물품사용대장 전체 조회</a>-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--여기까지-->
+
+            <!--    <td th:text="${item.getName()}">물품명</td>-->
+            <!--    <td th:text="${item.getManage()}">관리처</td>-->
+            <!--    <td th:text="${item.getDivision()}">구분</td>-->
+            <!--    <td th:text="${item.getCount() + ' (' + item.getCountSub() + ')'}">수량</td>-->
+            <!--    <td th:text="${item.getBuyPrice()}">매입처</td>-->
+            <!--    <td th:text="${item.getSupply()}">매입처 정보</td>-->
+            <!--    <td th:text="${item.getSupplyInfo()}">매입가</td>-->
+            <!--    <td th:text="${item.getMemo()}">비고</td>-->
+
+
+            <div th:replace="fragments/footer :: footer"/>
+            <script>
+                $("tr").click(function(){
+                    $(".newAttribute").remove();
+                    let data = $(this).data("id");
+                    console.log(data);
+                    let positionX = event.pageX;
+                    let positionY = event.pageY;
+                    let newTr = $('<tr>' +
+                                '<td colspan="8">' +
+                                    '<div class="row" style="height=1000px">' +
+                                        '<svg width="1.3em" height="1.6em" viewBox="0 0 16 16" class="bi bi-arrow-return-right mx-5 mt-3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">' +
+                                            '<path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>' +
+                                        '</svg>' +
+                                        '<div class="btn-group btn-group-sm ml-0" role="group" aria-label="First group">' +
+                                            '<a href="" type="button" class="btn btn-secondary">미구현</a>' +
+                                            '<a href="" type="button" class="btn btn-secondary">미구현</a>' +
+                                            '<a href="" type="button" class="btn btn-secondary">미구현</a>' +
+                                            '<a href="" type="button" class="btn btn-secondary">미구현</a>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</td>' +
+                            '</tr>');
+                    newTr.attr("class", "newAttribute");
+                    $(this).after(newTr);
+                });
+
+
+
+
+            </script>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

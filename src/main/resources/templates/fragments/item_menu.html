@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="item_menu">
+    <div class="list-group">
+        <div class="list-group-item list-group-item-action" data-toggle="modal" data-target="#insertItem">
+            물품 등록
+        </div>
+        <div class="modal fade" id="insertItem" tabindex="-1" aria-labelledby="insertItem" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="insertItemLabel">물품 등록</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            <form method="post" action="/item/addItem">
+                                <div class="form-group">
+                                    <label for="name">물품명</label>
+                                    <input type="text" class="form-control" id="name" name="name" required="required">
+                                </div>
+                                <div class="form-group">
+                                        <label for="manage">관리</label>
+                                        <select class="form-control" id="manage" name="manage">
+                                            <option>거륭</option>
+                                            <option>탑스원</option>
+                                        </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="division">구분</label>
+                                    <input type="text" class="form-control" name="division" id="division" placeholder="살균제/살충제/손소독제..." required="required">
+                                </div>
+                                <div class="form-group">
+                                    <label for="countSub">단위</label>
+                                    <input type="text" class="form-control" id="countSub" name="countSub" placeholder="ml/L/ea...." required="required">
+                                </div>
+                                <div class="form-group">
+                                    <label for="buyPrice">매입가</label>
+                                    <input type="number" class="form-control" id="buyPrice" name="buyPrice" value="0">
+                                </div>
+                                <div class="form-group">
+                                    <label for="supply">매입처</label>
+                                    <input type="text" class="form-control" id="supply" name="supply" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="supplyInfo">매입처 정보</label>
+                                    <input type="text" class="form-control" id="supplyInfo" name="supplyInfo" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="memo">비고</label>
+                                    <input type="text" class="form-control" id="memo" name="memo" value="">
+                                </div>
+                                <input type="submit" class="btn btn-outline-primary" value="등록">
+                                <input type="reset" class="btn btn-outline-primary" value="reset">
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <a href="/item" class="list-group-item list-group-item-action">물품 목록</a>
+        <a href="/item/itemUse" class="list-group-item list-group-item-action">물품 입/출고 대장</a>
+<!--        <div class="dropdown list-group-item list-group-item-action">-->
+<!--            <div class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                물품사용대장-->
+<!--            </div>-->
+<!--            <div class="dropdown-menu fade " aria-labelledby="dropdownMenuButton">-->
+<!--                <a class="dropdown-item" href="#">품목별 조회</a>-->
+<!--                <a class="dropdown-item" href="#">물품사용대장 전체 조회</a>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+</div>

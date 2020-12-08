@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div th:replace="fragments/navigation :: navigation" />
+<h2>물품 등록 폼</h2>
+<a href="/item">물품 목록</a> | <a href="/item/useList">물품 사용 대장</a> | <a href="/item/new">물품 등록</a>
+
+<form method="post" action="/item/new" th:object="${itemForm}">
+    <label th:for="name">물품명</label>
+    <input type="text" th:field="*{name}" required="required"><br>
+
+    <label th:for="company">관리</label>
+    <input type="text" th:field="*{company}"placeholder="거륭 / 탑스원" required="required"><br>
+
+    <label th:for="division">구분</label>
+    <input type="text" th:field="*{division}" placeholder="살균제, 살충제 ..." required="required"><br>
+
+    <label th:for="count">수량</label>
+    <input type="number" th:field="*{count}" placeholder=""><br>
+
+    <label th:for="count_sub">단위</label>
+    <input type="text" th:field="*{count_sub}" placeholder="L, ml, 통, ea ..." required="required"><br>
+
+    <label th:for="memo">특이사항</label>
+    <br>
+    <textarea th:field="*{memo}"></textarea><br>
+
+    <input type="submit" value="등록">
+    <input type="reset" value="다시작성"><br>
+</form>
+
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<div th:replace="fragments/navigation :: navigation" />
+<div class="container">
+<h2>물품 목록</h2>
+<a href="/item">물품 목록</a> | <a href="/item/useList">물품 사용 대장</a> | <a href="/item/new">물품 등록</a>
+
+<form method="post" action="/item/search">
+    <input type="text" name="name">
+    <input type="submit" value="검색">
+</form>
+    <table class="table table-hover justify-content">
+        <tr>
+            <th>제품명</th>
+            <th>관리담당</th>
+            <th>수량</th>
+            <th>특이사항</th>
+        </tr>
+        <div th:each="item : ${items}">
+            <tr>
+                <td th:text="${item.name}">제품명</td>
+                <td th:text="${item.company}">관리담당</td>
+                <td th:text="${item.count} + ' (' + ${item.count_sub} + ')'">수량</td>
+                <td th:text="${item.memo}">특이사항</td>
+            <tr/>
+            <tr>
+                <td>
+                    <form action="/item/use" method="post">
+                        <select name="useTo">
+                            <option value="Input">입고</option>
+                            <option value="Output">출고</option>
+                        </select>
+                        <input type="hidden" name="id" th:value="${item.id}">
+                        <input type="date" name="useDay" required="required" th:value="${today}">
+                        <input type="number" name="count" required="required" placeholder="수량">
+                        <input type="text" name="place" required="required" placeholder="입/출고처">
+                        <input type="submit" value="등록">
+                    </form>
+                </td>
+            </tr>
+        </div>
+    </table>
+
+<hr color="red">
+    <nav>
+        <ul th:class="pagination"
+            th:with="start=${T(Math).floor(items.number/10)*10 + 1},
+                    last=(${start + 9 < items.totalPages ? start + 9 : items.totalPages})">
+            <li th:class="page-item">
+                <a th:href="@{/item/search(page=1, name=${name})}" aria-label="First" th:class="page-link">
+                    <span aria-hidden="true">First</span>
+                </a>
+            </li>
+            <li th:class="${items.first} ? 'page-item disabled' : 'page-item'">
+                <a th:href="${items.first} ? '#' :@{/item/search(page=${items.number}, name=${name})}"
+                   aria-label="Previous"
+                   th:class="page-link">
+                    <span aria-hidden="true">&lt;</span>
+                </a>
+            </li>
+
+            <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == items.number + 1} ? 'page-item active' : 'page-item'">
+                <div th:unless="${page == items.number + 1}">
+                    <a th:text="${page}" th:href="@{/item/search(page=${page}, name=${name})}" th:class="page-link"></a>
+                </div>
+
+                <div th:if="${page == items.number + 1}">
+                <span th:class="page-link" th:text="${page}">
+                    <span th:class="sr-only">(current)</span>
+                </span>
+                </div>
+            </li>
+
+            <li th:class="${items.last} ? 'page-item active disabled' : page-item">
+                <a th:href="${items.last} ? '#' : @{/item/search(page=${items.number + 2}, name=${name})}" aria-label="Next"
+                   th:class="page-link">
+                    <span aria-hidden="true">&gt;</span>
+                </a>
+            </li>
+            <li th:class="page-item">
+                <a th:href="@{/item/search(page=${items.totalPages}, name=${name})}" aria-label="Last"
+                   th:class="page-link">
+                    <span aria-hidden="true">Last</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
+
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+<div class="sticky-top">
+    <div th:replace="fragments/navigation :: navigation"/>
+</div>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-2">
+            <div class="mt-5">
+                <div th:replace="fragments/item_menu :: item_menu"/>
+            </div>
+        </div>
+        <div class="col-10">
+            <div class="container col-5 pt-5 mt-5">
+                <h2 class="mb-5">물품 입/출고 등록</h2>
+
+                <form method="post" action="/item/itemUse/insert">
+                    <input type="hidden" name="id" th:value="${id}">
+                    <div class="form-group">
+                        <h5 th:text="${name}"></h5>
+                        <h5 th:text="${count}"></h5>
+                    </div>
+                    <div class="row">
+                        <div class="column-3">
+                            <div class="form-group mr-5">
+                                <label for="useDay">입/출고일</label>
+                                <input type="date" class="form-control" id="useDay" name="useDay" th:value="${today}"
+                                       required="required">
+                            </div>
+                        </div>
+                        <div class="column-3 ml-5">
+                            <div class="form-group">
+                                <label for="io">입/출고</label>
+                                <select class="form-control" id="io" name="io">
+                                    <option value="입고">입고</option>
+                                    <option value="출고">출고</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mr-5">
+                        <label for="place">입/출고처</label>
+                        <input type="text" class="form-control" id="place" name="place" value="" required="required">
+                    </div>
+                    <div class="form-group mr-5">
+                        <label for="useCount">입/출고량</label>
+                        <input type="number" class="form-control" id="useCount" name="useCount" value="" required="required">
+                    </div>
+                    <div class="form-group mr-5">
+                        <label for="price">입/출고단가</label>
+                        <input type="number" class="form-control" id="price" name="price" value="0" >
+                    </div>
+                    <div class="form-group mr-5">
+                        <label for="memo">비고</label>
+                        <textarea class="form-control" id="memo" name="memo" value=""></textarea>
+                    </div>
+
+                    <input type="submit" class="btn btn-outline-primary" value="등록">
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div th:replace="fragments/footer :: footer"/>
+</div>
+</body>
+</html>
